@@ -1,14 +1,9 @@
 import uuid
 
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 
-
-# Create your models here.
-class Wallet(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='wallet')
+from .wallet import Wallet
 
 
 class Transaction(models.Model):
