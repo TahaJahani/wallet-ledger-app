@@ -24,7 +24,7 @@ class Transaction(models.Model):
     amount = models.PositiveBigIntegerField(null=False, blank=False)
     reference = models.CharField(null=False, blank=False, max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    metadata = models.JSONField(default={})
+    metadata = models.JSONField(default=dict)
 
     def save(self, *args, **kwargs):
         if self.pk:
