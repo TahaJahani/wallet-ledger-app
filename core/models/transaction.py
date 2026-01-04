@@ -37,6 +37,10 @@ class TransactionManager(models.Manager):
         if amount <= 0:
             raise ValidationError("Amount must be positive")
 
+        existing_transaction = Transaction.objects.filter(reference=reference, wallet=wallet, type=type).first()
+        if existing_transaction is not None:
+            return existing_transaction
+
         with transaction.atomic():
             wallet = Wallet.objects.select_for_update().get(pk=wallet.pk)
 
@@ -86,6 +90,15 @@ class TransactionManager(models.Manager):
         if amount <= 0:
             raise ValidationError("Amount must be positive")
 
+        existing_transaction = Transaction.objects.filter(
+            reference=reference,
+            wallet=from_wallet,
+            type=Transaction.Type.transfer_out
+        ).first()
+        
+        if existing_transaction is not None:
+            return existing_transaction
+
         with transaction.atomic():
             wallets = (
                 Wallet.objects
@@ -123,7 +136,7 @@ class TransactionManager(models.Manager):
             deposit.save()
             deposit._safely_created = False
 
-            return withdrawal, deposit
+            return withdrawal
 
 
 class Transaction(models.Model):
@@ -154,8 +167,8 @@ class Transaction(models.Model):
                 name="amount_greater_than_zero",
             ),
             models.UniqueConstraint(
-                fields=["wallet", "reference"],
-                name="unique_wallet_reference"
+                fields=["wallet", "reference", "type"],
+                name="unique_wallet_reference_type"
             )
         ]
 
