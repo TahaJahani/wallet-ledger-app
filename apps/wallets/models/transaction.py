@@ -28,8 +28,10 @@ class TransactionManager(models.Manager):
     def update(self, **kwargs):
         raise RuntimeError("Transactions are immutable and cannot be updated")
 
-    def bulk_update(self, objs, fields, **kwargs):
-        raise RuntimeError("Transactions are immutable and cannot be updated")
+    def bulk_update(self, objs, fields, batch_size=None):
+        raise RuntimeError(
+            "Transactions are immutable and cannot be updated"
+        )
 
     def __create_transaction(self, *, wallet, type, amount, reference, metadata=None):
         from django.db import transaction
