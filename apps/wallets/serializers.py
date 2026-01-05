@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError as DjangoValidationError
-from core.models import Wallet, Transaction
+from .models import Wallet, Transaction
 
 
 class TransactionSerializer(serializers.ModelSerializer):

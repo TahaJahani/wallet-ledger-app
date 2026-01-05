@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls.base import reverse
 from django.utils.html import format_html
 
-from core import models
+from . import models
 
 
 class ImmutableModelAdmin(admin.ModelAdmin):
@@ -30,12 +30,6 @@ class WalletModelAdmin(ImmutableModelAdmin):
         return format_html('<a href="{}">{}</a>', url, obj.user)
 
     user_link.short_description = "User"
-
-
-@admin.register(models.User)
-class UserModelAdmin(admin.ModelAdmin):
-    def has_delete_permission(self, request, obj=None):
-        return False
 
 
 admin.site.register(models.Transaction, ImmutableModelAdmin)

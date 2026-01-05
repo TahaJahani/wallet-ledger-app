@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.deletion import ProtectedError
 
-from .wallet import Wallet
+from apps.wallets.models import Wallet
 
 
 class UserManager(BaseUserManager):

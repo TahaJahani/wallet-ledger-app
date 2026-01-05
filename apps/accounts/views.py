@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 
-from core.serializers import LoginSerializer, UserSerializer
+from .serializers import LoginSerializer, UserSerializer
 
 User = get_user_model()
 
