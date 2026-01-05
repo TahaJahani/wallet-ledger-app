@@ -75,8 +75,8 @@ def transfer(request):
 
         return Response(
             {
-                'withdrawal': TransactionSerializer(withdrawal).data,
-                'deposit': TransactionSerializer(deposit).data
+                'transfer_out': TransactionSerializer(withdrawal).data,
+                'transfer_in': TransactionSerializer(deposit).data
             },
             status=status.HTTP_200_OK if is_idempotent else status.HTTP_201_CREATED
         )
