@@ -19,7 +19,7 @@ class ImmutableModelAdmin(admin.ModelAdmin):
 @admin.register(models.Wallet)
 class WalletModelAdmin(ImmutableModelAdmin):
     list_display = ("id", "user_link")
-    readonly_fields = ("user_link",)
+    readonly_fields = ("user_link", "last_balance", "last_balance_update")
 
     def user_link(self, obj):
         url = reverse(

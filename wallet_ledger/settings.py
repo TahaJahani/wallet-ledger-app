@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_crontab',
     'apps.accounts',
     'apps.wallets'
 ]
@@ -84,6 +85,10 @@ REST_FRAMEWORK = {
 }
 
 WSGI_APPLICATION = 'wallet_ledger.wsgi.application'
+
+CRONJOBS = [
+    ('0 0 * * *', 'apps.wallets.cron.update_wallet_balances')
+]
 
 
 # Database
