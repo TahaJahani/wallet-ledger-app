@@ -95,7 +95,7 @@ class TransactionManager(models.Manager):
             wallet=from_wallet,
             type=Transaction.Type.transfer_out
         ).first()
-        
+
         if existing_transaction is not None:
             return existing_transaction
 
@@ -136,7 +136,7 @@ class TransactionManager(models.Manager):
             deposit.save()
             deposit._safely_created = False
 
-            return withdrawal
+            return withdrawal, deposit
 
 
 class Transaction(models.Model):
