@@ -58,3 +58,38 @@ def user_profile_view(request):
     """
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_user(request):
+    """
+    Create a new user account.
+
+    Accepts:
+    - username (required, unique)
+    - email (required, unique)
+    - password (required, min 8 chars)
+    - password_confirm (required, must match password)
+    - first_name (optional)
+    - last_name (optional)
+
+    Returns:
+    - Authentication token
+    - User details
+    """
+    serializer = UserCreateSerializer(data=request.data)
+
+    if serializer.is_valid():
+        user = serializer.save()
+
+        # Automatically create authentication token for the new user
+        token = Token.objects.create(user=user)
+
+        return Response({
+            'message': 'User created successfully.',
+            'token': token.key,
+            'user': UserSerializer(user).data
+        }, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
