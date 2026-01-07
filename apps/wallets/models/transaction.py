@@ -99,7 +99,12 @@ class TransactionManager(models.Manager):
         ).first()
 
         if existing_transaction is not None:
-            return existing_transaction
+            existing_deposit = Transaction.objects.filter(
+                reference=reference,
+                wallet=to_wallet,
+                type=Transaction.Type.transfer_in
+            ).first()
+            return existing_transaction, existing_deposit
 
         with transaction.atomic():
             wallets = (
