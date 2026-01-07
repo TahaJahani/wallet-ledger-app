@@ -88,10 +88,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        # Remove password_confirm as it's not needed for user creation
         validated_data.pop('password_confirm')
 
-        # Create user with hashed password
         user = User.objects.create_user(**validated_data)
 
         return user

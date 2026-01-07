@@ -13,10 +13,6 @@ User = get_user_model()
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_view(request):
-    """
-    User login endpoint.
-    Returns authentication token and user details.
-    """
     serializer = LoginSerializer(data=request.data, context={'request': request})
     serializer.is_valid(raise_exception=True)
 
@@ -34,12 +30,7 @@ def login_view(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout_view(request):
-    """
-    User logout endpoint.
-    Deletes the user's authentication token.
-    """
     try:
-        # Delete the user's token to logout
         request.user.auth_token.delete()
         return Response({
             'detail': 'Successfully logged out.'
@@ -53,9 +44,6 @@ def logout_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_profile_view(request):
-    """
-    Get current user's profile information.
-    """
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
@@ -63,21 +51,6 @@ def user_profile_view(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def create_user(request):
-    """
-    Create a new user account.
-
-    Accepts:
-    - username (required, unique)
-    - email (required, unique)
-    - password (required, min 8 chars)
-    - password_confirm (required, must match password)
-    - first_name (optional)
-    - last_name (optional)
-
-    Returns:
-    - Authentication token
-    - User details
-    """
     serializer = UserCreateSerializer(data=request.data)
 
     if serializer.is_valid():
